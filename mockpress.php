@@ -60,6 +60,7 @@ function _reset_wp() {
 		'multisite' => array(
 			'configuration_type' => 'subfolder'
 		),
+		'wp_redirect' => array(),
 	);
 
 	wp_cache_init();
@@ -1675,4 +1676,30 @@ function _get_node_value($xml, $xpath) {
  */
 function _wrap_xml($string) {
 	return new SimpleXMLElement("<x>" . $string . "</x>");
+}
+
+/**
+ * Checks if a user is logged in, if not it redirects them to the login page.
+ */
+function auth_redirect() {
+    wp_redirect( '/wp-login.php' );
+}
+
+/**
+ * Redirects to another page.
+ * @param string $location The path to redirect to
+ * @param int $status Status code to use
+ * @return bool False if $location is not set
+ */
+function wp_redirect($location, $status = 302) {
+	global $wp_test_expectations;
+
+	if ( ! $location ) {
+		return false;
+	}
+
+	$wp_test_expectations['wp_redirect'] = array(
+	   'location'  => $location,
+	   'status'    => $status,
+	);
 }
