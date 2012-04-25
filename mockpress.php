@@ -42,6 +42,7 @@ function _reset_wp() {
 		'wp_widgets' => array(),
 		'current' => array(
 			'is_feed' => false,
+			'is_admin' => false,
 			'is_home' => false
 		),
 		'plugin_data' => array(),
@@ -960,7 +961,7 @@ function is_feed() {
 }
 
 /**
- * True if the current user is an admin.
+ * True if the current user is on an admin page.
  * @return boolean True if an admin.
  */
 function is_admin() {

@@ -206,6 +206,11 @@ class MockPressTest extends PHPUnit_Framework_TestCase {
 		$this->assertTrue(is_home());
 	}
 
+	function testIsAdmin() {
+		_set_current_option('is_admin', true);
+		$this->assertTrue(is_admin());
+	}
+
 	function providerTestAddCategoryErrors() {
 		return array(
 			array('string', (object)array()),
