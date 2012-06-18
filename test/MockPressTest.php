@@ -206,6 +206,11 @@ class MockPressTest extends PHPUnit_Framework_TestCase {
 		$this->assertTrue(is_home());
 	}
 
+	function testIsAdmin() {
+		_set_current_option('is_admin', true);
+		$this->assertTrue(is_admin());
+	}
+
 	function providerTestAddCategoryErrors() {
 		return array(
 			array('string', (object)array()),
@@ -338,5 +343,25 @@ class MockPressTest extends PHPUnit_Framework_TestCase {
 
 		_set_multisite_configuration_type('subdomain');
 		$this->assertTrue(is_subdomain_install());
+	}
+
+	function testWPRedirect() {
+		global $wp_test_expectations;
+
+		$this->assertEquals(0, count($wp_test_expectations['wp_redirect']));
+
+		wp_redirect('/foo');
+
+		$this->assertEquals('/foo', $wp_test_expectations['wp_redirect']['location']);
+		$this->assertEquals(302, $wp_test_expectations['wp_redirect']['status']);
+	}
+
+	function testAuthRedirect() {
+		global $wp_test_expectations;
+
+		auth_redirect();
+
+		$this->assertEquals('/wp-login.php', $wp_test_expectations['wp_redirect']['location']);
+		$this->assertEquals(302, $wp_test_expectations['wp_redirect']['status']);
 	}
 }
